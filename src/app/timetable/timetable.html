@@ -1,0 +1,40 @@
+<mat-card class="paper-list">
+  @for (item of visible(); track eventKey(item); let last = $last) {
+    <div class="event">
+      @if (inEditMode()) {
+        <mat-checkbox
+          class="pick"
+          [checked]="picked().has(eventKey(item))"
+          (change)="togglePick(eventKey(item), $event.checked)"
+        />
+      }
+      <table>
+        <tbody>
+          <tr>
+            <td><b>{{ item.courseType }} {{ item.name }}</b></td>
+          </tr>
+          <tr>
+            <td>{{ item.timeBegin }} - {{ item.timeEnd }} <span></span>| <span>{{ item.roomId }}</span></td>
+          </tr>
+          <tr>
+            <td>{{ item.studentSet }} <span></span>| <span>{{ item.lecturerName }}</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    @if (!last) {
+      <mat-divider />
+    }
+  } @empty {
+    <p class="empty">Keine Termine</p>
+  }
+</mat-card>
+@if (inEditMode()) {
+  <button mat-fab color="primary" class="fab" aria-label="Speichern" (click)="savePicked()">
+    <mat-icon>save</mat-icon>
+  </button>
+} @else {
+  <button mat-fab color="primary" class="fab" aria-label="Bearbeiten" (click)="enterEditMode()">
+    <mat-icon>edit</mat-icon>
+  </button>
+}

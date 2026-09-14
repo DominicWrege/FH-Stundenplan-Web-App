@@ -1,0 +1,42 @@
+<mat-dialog-content>
+  @switch (impressumVisible()) {
+    @case (false) {
+      <section class="settings">
+        <h2>Einstellungen</h2>
+        <mat-form-field appearance="outline" class="full">
+          <mat-label>Studiengang</mat-label>
+          <mat-select [value]="store.course()" (selectionChange)="courseChanged($event)">
+            @for (option of courseOptions(); track option.value) {
+              <mat-option [value]="option.value">{{ option.label }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="letter">
+          <mat-label>Gruppenbuchstabe</mat-label>
+          <mat-select [value]="store.filter().groupLetter" (selectionChange)="groupLetterChanged($event)">
+            @for (letter of groupLetters; track letter) {
+              <mat-option [value]="letter">{{ letter }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <section class="switch">
+          <mat-slide-toggle [checked]="store.filter().group" (change)="groupChanged($event.checked)">
+            Nach Gruppenbuchstabe filtern
+          </mat-slide-toggle>
+        </section>
+        <section class="switch">
+          <mat-slide-toggle [checked]="store.filter().qdl" (change)="qdlChanged($event.checked)">
+            QDL's anzeigen
+          </mat-slide-toggle>
+        </section>
+        <button mat-raised-button class="reset-btn" (click)="reset()">Stundenplan zurücksetzen</button>
+        <button mat-raised-button class="close-btn" (click)="close()">Schließen</button>
+        <br />
+        <button mat-button (click)="impressumVisible.set(true)">Impressum</button>
+      </section>
+    }
+    @case (true) {
+      <app-impressum (close)="impressumVisible.set(false)" />
+    }
+  }
+</mat-dialog-content>

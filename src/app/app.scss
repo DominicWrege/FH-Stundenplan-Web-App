@@ -1,0 +1,73 @@
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: #f44336;
+  box-shadow:
+    0 2px 4px -1px rgba(0, 0, 0, 0.2),
+    0 4px 5px 0 rgba(0, 0, 0, 0.14),
+    0 1px 10px 0 rgba(0, 0, 0, 0.12);
+
+  mat-tab-nav-panel {
+    height: 0;
+    background: transparent;
+  }
+}
+
+.toolbar {
+  background-color: #f44336;
+  color: #fff;
+  height: 64px;
+  padding-left: 10px;
+  padding-right: 10px;
+
+  button {
+    color: #fff;
+  }
+}
+
+.title {
+  flex: 1 1 auto;
+}
+
+.tabs {
+  max-width: 750px;
+  margin: 0 auto;
+
+  --mat-tab-background-color: #f44336;
+  --mat-tab-foreground-color: #fff;
+  --mat-tab-pagination-icon-color: #fff;
+  --mat-tab-divider-color: #f44336;
+  --mat-tab-divider-height: 0px;
+  --mat-tab-inactive-label-text-color: rgba(255, 255, 255, 0.7);
+  --mat-tab-inactive-hover-label-text-color: #fff;
+  --mat-tab-inactive-focus-label-text-color: #fff;
+  --mat-tab-active-label-text-color: #fff;
+  --mat-tab-active-hover-label-text-color: #fff;
+  --mat-tab-active-focus-label-text-color: #fff;
+  --mat-tab-active-indicator-color: #fff59d;
+  --mat-tab-active-hover-indicator-color: #fff59d;
+  --mat-tab-active-focus-indicator-color: #fff59d;
+  --mat-tab-active-indicator-height: 4px;
+
+  a[mat-tab-link] {
+    flex: 1 1 auto;
+    min-width: 54px;
+  }
+}
+
+app-timetable {
+  width: 100%;
+  max-width: 720px;
+  margin: 3% auto 5%;
+}
+
+@media (max-width: 650px) {
+  .toolbar {
+    height: 52px;
+  }
+
+  app-timetable {
+    margin-top: 0;
+  }
+}

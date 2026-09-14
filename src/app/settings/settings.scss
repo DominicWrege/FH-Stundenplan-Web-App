@@ -1,0 +1,59 @@
+mat-dialog-content {
+  padding: 16px 24px 24px;
+}
+
+:host {
+  display: block;
+  min-height: 335px;
+}
+
+h2 {
+  margin-top: 0;
+  margin-bottom: 0.75em;
+}
+
+.full {
+  width: 95%;
+}
+
+.letter {
+  width: 230px;
+  margin-bottom: 0.25em;
+}
+
+.switch {
+  margin-bottom: 1em;
+
+  mat-slide-toggle {
+    ::ng-deep .mdc-form-field > label {
+      margin-left: 10px;
+    }
+  }
+}
+
+button[mat-raised-button] {
+  margin-top: 16px;
+  margin-bottom: 14px;
+}
+
+.close-btn {
+  float: right;
+  margin-bottom: 10px;
+}
+
+.reset-btn {
+  color: #f44336;
+}
+
+@media (max-width: 410px) {
+  .close-btn {
+    float: left;
+    margin-bottom: 16px;
+  }
+}
+
+@media (max-height: 580px) {
+  h2 {
+    margin-bottom: 0;
+  }
+}

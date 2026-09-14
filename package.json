@@ -1,34 +1,34 @@
 {
-  "name": "fh-stundenplan-web-app",
-  "flat": true,
-  "version": "1.0.0",
-  "main": "index.html",
-  "keywords": [
-    "polymer v3",
-    "fh-dortmund"
-  ],
-  "author": "Dominic Wrege",
-  "license": "ISC",
-  "dependencies": {
-    "@material/mwc-button": "^0.1.1",
-    "@material/mwc-fab": "^0.1.1",
-    "@material/mwc-switch": "^0.1.1",
-    "@polymer/app-layout": "^3.0.0-pre.1",
-    "@polymer/lit-element": "^0.5.1",
-    "@polymer/paper-tabs": "^3.0.0-pre.1",
-    "@polymer/polymer": "^3.0.0-pre.1",
-    "@webcomponents/webcomponentsjs": "^2.0.0"
-  },
-  "bugs": {
-    "url": "https://github.com/DominicWrege/FH-Stundenplan-Web-App/issues"
-  },
+  "name": "fh-stundenplan",
+  "version": "0.0.0",
   "scripts": {
-    "build-csp": "./buildcsp.sh"
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test"
   },
-  "homepage": "https://github.com/DominicWrege/FH-Stundenplan-Web-App#readme",
+  "private": true,
+  "dependencies": {
+    "@angular/cdk": "^22.1.6",
+    "@angular/common": "^22.1.0",
+    "@angular/compiler": "^22.1.0",
+    "@angular/core": "^22.1.0",
+    "@angular/forms": "^22.1.0",
+    "@angular/material": "^22.1.6",
+    "@angular/platform-browser": "^22.1.0",
+    "@angular/router": "^22.1.0",
+    "@angular/service-worker": "^22.1.0",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0"
+  },
   "devDependencies": {
-    "crisper": "^2.1.1",
-    "polymer-cli": "^1.7.1",
-    "typescript": "^2.8.3"
+    "@angular/build": "^22.1.8",
+    "@angular/cli": "^22.1.8",
+    "@angular/compiler-cli": "^22.1.0",
+    "jsdom": "^28.0.0",
+    "prettier": "^3.8.1",
+    "typescript": "~6.0.2",
+    "vitest": "^4.0.8"
   }
 }
