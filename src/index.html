@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <title>FH Stundenplan</title>
     <base href="/">
-    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="description" content="Die FH Dortmund Studenplan Web-App. Von Studenten für Studenten.">
 
     <meta name="theme-color" content="#F44336">
@@ -37,6 +37,7 @@
 
 <body>
     <app-root></app-root>
+  <script>document.addEventListener("gesturestart", (e) => e.preventDefault());</script>
 </body>
 
 </html>

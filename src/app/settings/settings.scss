@@ -41,9 +41,16 @@ button[mat-raised-button] {
   margin-top: 16px;
   margin-bottom: 14px;
 }
-
 .reset-btn {
   color: #f44336;
+}
+
+.impressum-btn {
+  min-width: 0;
+  height: 28px;
+  padding: 2px 8px;
+  font-size: 0.75rem;
+  line-height: 1.2;
 }
 
 @media (max-height: 580px) {

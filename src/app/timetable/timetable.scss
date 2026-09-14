@@ -16,10 +16,16 @@
   background-color: #fff;
   padding: 0;
   border-radius: 8px;
+  overflow: hidden; /* iOS: clip children at the rounded corners */
   box-shadow:
     0 3px 4px 0 rgba(0, 0, 0, 0.14),
     0 1px 8px 0 rgba(0, 0, 0, 0.12),
     0 3px 3px -2px rgba(0, 0, 0, 0.4);
+}
+
+/* Material card's absolute border overlay can leave hairline slivers at iOS corners. */
+.paper-list::after {
+  display: none;
 }
 
 .empty {
@@ -52,10 +58,14 @@
   right: 15%;
   bottom: 10%;
 }
-
 @media (max-width: 650px) {
   :host {
     margin-top: 0;
+  }
+
+  .event,
+  .empty {
+    padding: 16px 20px;
   }
 
   .fab {
