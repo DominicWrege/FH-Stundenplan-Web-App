@@ -52,8 +52,8 @@ export class Timetable {
   }
 
   enterEditMode(): void {
+    this.picked.set(new Set(this.store.savedEvents()[this.weekday()].map((event) => eventKey(event))));
     this.inEditMode.set(true);
-    this.picked.set(new Set<string>());
   }
 
   savePicked(): void {
