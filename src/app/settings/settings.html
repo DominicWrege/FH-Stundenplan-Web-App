@@ -2,7 +2,12 @@
   @switch (impressumVisible()) {
     @case (false) {
       <section class="settings">
-        <h2>Einstellungen</h2>
+        <header class="settings-head">
+          <h2>Einstellungen</h2>
+          <button mat-icon-button class="close-btn" aria-label="Schließen" (click)="close()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </header>
         <mat-form-field appearance="outline" class="full">
           <mat-label>Studiengang</mat-label>
           <mat-select [value]="store.course()" (selectionChange)="courseChanged($event)">
@@ -30,7 +35,6 @@
           </mat-slide-toggle>
         </section>
         <button mat-raised-button class="reset-btn" (click)="reset()">Stundenplan zurücksetzen</button>
-        <button mat-raised-button class="close-btn" (click)="close()">Schließen</button>
         <br />
         <button mat-button (click)="impressumVisible.set(true)">Impressum</button>
       </section>

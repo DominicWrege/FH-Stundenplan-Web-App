@@ -7,9 +7,15 @@ mat-dialog-content {
   min-height: 335px;
 }
 
-h2 {
-  margin-top: 0;
+.settings-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 0.75em;
+
+  h2 {
+    margin: 0;
+  }
 }
 
 .full {
@@ -36,24 +42,12 @@ button[mat-raised-button] {
   margin-bottom: 14px;
 }
 
-.close-btn {
-  float: right;
-  margin-bottom: 10px;
-}
-
 .reset-btn {
   color: #f44336;
 }
 
-@media (max-width: 410px) {
-  .close-btn {
-    float: left;
-    margin-bottom: 16px;
-  }
-}
-
 @media (max-height: 580px) {
-  h2 {
+  .settings-head {
     margin-bottom: 0;
   }
 }
