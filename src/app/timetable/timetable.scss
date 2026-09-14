@@ -37,6 +37,16 @@
   margin-right: 20px;
   margin-left: 15px;
 }
+
+/* Edit mode: tighter rows — checkbox shrinks the inset, less vertical padding. */
+:host(.editing) .event {
+  padding: 8px 4%;
+}
+
+:host(.editing) .pick {
+  margin-left: 6px;
+  margin-right: 12px;
+}
 .fab {
   position: fixed;
   right: 15%;

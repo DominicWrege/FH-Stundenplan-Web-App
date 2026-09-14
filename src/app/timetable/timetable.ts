@@ -13,7 +13,7 @@ import { applyFilter, eventKey, type TimetableEvent, type Weekday } from '../sch
   styleUrl: './timetable.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MatButtonModule, MatCardModule, MatCheckboxModule, MatDividerModule, MatIconModule],
-  host: { '[class.active]': 'active()' },
+  host: { '[class.active]': 'active()', '[class.editing]': 'inEditMode()' },
 })
 export class Timetable {
   private readonly store = inject(ScheduleStore);
