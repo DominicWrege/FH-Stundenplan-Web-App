@@ -69,12 +69,11 @@ app-timetable {
 
 @media (max-width: 650px) {
   .tabs {
-    /* Condense the five weekday labels so mobile needs no pagination arrows. */
-    .mdc-tab {
-      flex: 1 1 0;
-      min-width: 44px;
-      padding-left: 6px;
-      padding-right: 6px;
+    /* Roomier labels at ~4 tabs per screen; pagination arrows stay reachable for the rest. */
+    a[mat-tab-link] {
+      flex: 0 0 auto;
+      padding-left: 12px;
+      padding-right: 12px;
     }
   }
 
