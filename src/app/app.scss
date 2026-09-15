@@ -30,6 +30,10 @@
   flex: 1 1 auto;
 }
 
+main {
+  touch-action: pan-y;
+}
+
 .tabs {
   max-width: 750px;
   margin: 0 auto;

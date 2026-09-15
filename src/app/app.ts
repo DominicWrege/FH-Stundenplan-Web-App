@@ -31,8 +31,9 @@ export class App {
   readonly weekdays = WEEKDAYS;
   readonly labels = WEEKDAY_LABELS;
 
-  private touchStartX = 0;
-  private touchStartY = 0;
+  private swipePointerId: number | undefined;
+  private swipeStartX = 0;
+  private swipeStartY = 0;
 
   constructor() {
     // First load without a saved feed opens the settings dialog, like the original `_firstRendered`.
@@ -64,27 +65,36 @@ export class App {
     });
   }
 
-  onSwipeStart(event: TouchEvent): void {
-    const touch = event.changedTouches[0];
-    if (touch === undefined) {
+  onSwipeStart(event: PointerEvent): void {
+    if (event.pointerType !== 'touch') {
       return;
     }
-    this.touchStartX = touch.clientX;
-    this.touchStartY = touch.clientY;
+    this.swipePointerId = event.pointerId;
+    this.swipeStartX = event.clientX;
+    this.swipeStartY = event.clientY;
+
+    if (event.currentTarget instanceof HTMLElement) {
+      event.currentTarget.setPointerCapture(event.pointerId);
+    }
   }
 
-  onSwipeEnd(event: TouchEvent): void {
-    const touch = event.changedTouches[0];
-    if (touch === undefined) {
+  onSwipeEnd(event: PointerEvent): void {
+    if (event.pointerId !== this.swipePointerId) {
       return;
     }
-    const dx = touch.clientX - this.touchStartX;
-    const dy = touch.clientY - this.touchStartY;
+    this.swipePointerId = undefined;
+
+    const dx = event.clientX - this.swipeStartX;
+    const dy = event.clientY - this.swipeStartY;
     // Ignore short swipes and mostly-vertical gestures so scrolling still works.
     if (Math.abs(dx) < 50 || Math.abs(dx) <= Math.abs(dy)) {
       return;
     }
     this.goToDay(this.store.selectedDay() + (dx < 0 ? 1 : -1));
+  }
+
+  cancelSwipe(): void {
+    this.swipePointerId = undefined;
   }
 
   private goToDay(index: number): void {
