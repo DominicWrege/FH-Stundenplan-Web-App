@@ -13,9 +13,13 @@
             <mat-spinner diameter="44" />
           </div>
         } @else {
-          <mat-form-field appearance="outline" class="full">
+          <mat-form-field appearance="outline" class="full course-field">
             <mat-label>Studiengang</mat-label>
-            <mat-select [value]="store.course()" (selectionChange)="courseChanged($event)">
+            <mat-select
+              [value]="store.course()"
+              panelClass="course-options"
+              (selectionChange)="courseChanged($event)"
+            >
               @for (option of courseOptions(); track option.value) {
                 <mat-option [value]="option.value">{{ option.label }}</mat-option>
               }
@@ -48,15 +52,14 @@
         </section>
         <section class="sync-settings" aria-labelledby="sync-heading">
           <div>
-            <h3 id="sync-heading">Geräteübergreifend synchronisieren</h3>
-            <p>
-              Optional mit Google anmelden, um Einstellungen und gespeicherte Termine zu
-              synchronisieren.
-            </p>
+            <h3 id="sync-heading">Synchronisierung</h3>
+            <p>Einstellungen optional über Google synchronisieren.</p>
           </div>
           @switch (sync.status()) {
             @case ('disabled') {
-              <button mat-stroked-button (click)="sync.signIn()">Mit Google anmelden</button>
+              <button mat-stroked-button class="google-sign-in" (click)="sync.signIn()">
+                Google-Anmeldung
+              </button>
             }
             @case ('signing-in') {
               <div class="sync-status" role="status">
