@@ -1,5 +1,9 @@
 :host {
   display: block;
+
+  h2:not(:first-child) {
+    margin-top: 28px;
+  }
 }
 
 .contact {

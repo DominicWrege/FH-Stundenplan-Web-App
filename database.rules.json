@@ -1,0 +1,47 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "users": {
+      "$uid": {
+        "settings": {
+          ".read": "auth != null && auth.uid === $uid",
+          ".write": "auth != null && auth.uid === $uid",
+          ".validate": "newData.hasChildren(['schemaVersion', 'filter', 'updatedAt']) && newData.child('schemaVersion').val() === 1 && newData.child('updatedAt').isNumber()",
+          "schemaVersion": { ".validate": "newData.val() === 1" },
+          "course": { ".validate": "newData.isString() && newData.val().length <= 100" },
+          "updatedAt": { ".validate": "newData.isNumber()" },
+          "filter": {
+            ".validate": "newData.hasChildren(['group', 'qdl', 'groupLetter'])",
+            "group": { ".validate": "newData.isBoolean()" },
+            "qdl": { ".validate": "newData.isBoolean()" },
+            "groupLetter": { ".validate": "newData.isString() && newData.val().length <= 1" },
+            "$other": { ".validate": false }
+          },
+          "savedEvents": {
+            "$day": {
+              ".validate": "$day === 'mon' || $day === 'tue' || $day === 'wed' || $day === 'thu' || $day === 'fri'",
+              "$index": {
+                ".validate": "newData.hasChildren(['courseId', 'courseType', 'name', 'timeBegin', 'timeEnd', 'timestampBegin', 'roomId', 'studentSet', 'lecturerName']) && newData.child('courseId').isString() && newData.child('courseType').isString() && newData.child('name').isString() && newData.child('timeBegin').isString() && newData.child('timeEnd').isString() && newData.child('timestampBegin').isNumber() && newData.child('roomId').isString() && newData.child('studentSet').isString() && newData.child('lecturerName').isString()",
+                "courseId": { ".validate": "newData.isString() && newData.val().length <= 200" },
+                "courseType": { ".validate": "newData.isString() && newData.val().length <= 100" },
+                "name": { ".validate": "newData.isString() && newData.val().length <= 500" },
+                "timeBegin": { ".validate": "newData.isString() && newData.val().length <= 20" },
+                "timeEnd": { ".validate": "newData.isString() && newData.val().length <= 20" },
+                "timestampBegin": { ".validate": "newData.isNumber()" },
+                "roomId": { ".validate": "newData.isString() && newData.val().length <= 200" },
+                "studentSet": { ".validate": "newData.isString() && newData.val().length <= 200" },
+                "lecturerName": {
+                  ".validate": "newData.isString() && newData.val().length <= 500"
+                },
+                "$other": { ".validate": false }
+              }
+            }
+          },
+          "$other": { ".validate": false }
+        },
+        "$other": { ".validate": false }
+      }
+    }
+  }
+}

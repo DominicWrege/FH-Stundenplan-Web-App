@@ -9,6 +9,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { Impressum } from '../impressum/impressum';
 import { type Course } from '../schedule/models';
 import { ScheduleStore } from '../schedule/schedule-store';
+import { SettingsSync } from '../settings-sync/settings-sync';
 
 interface CourseOption {
   value: string;
@@ -35,6 +36,7 @@ const GROUP_LETTERS: readonly string[] = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 })
 export class Settings {
   readonly store = inject(ScheduleStore);
+  readonly sync = inject(SettingsSync);
   private readonly dialogRef = inject<MatDialogRef<Settings>>(MatDialogRef);
 
   readonly impressumVisible = signal(false);

@@ -7,6 +7,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { WEEKDAYS, WEEKDAY_LABELS } from './schedule/models';
 import { ScheduleStore } from './schedule/schedule-store';
 import { Settings } from './settings/settings';
+import { SettingsSync } from './settings-sync/settings-sync';
 import { Timetable } from './timetable/timetable';
 
 @Component({
@@ -38,6 +39,7 @@ export class App {
   private ignoreTabClickUntil = 0;
 
   constructor() {
+    inject(SettingsSync);
     // First load without a saved feed opens the settings dialog, like the original `_firstRendered`.
     if (localStorage.getItem('course') === null) {
       this.openSettings();

@@ -12,6 +12,18 @@ ng serve
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
+## Firebase settings synchronization
+
+Cloud synchronization is optional. The app loads Firebase only after a user enables synchronization or when a previous opt-in session resumes.
+
+Before deploying the feature:
+
+1. Enable the Google provider under Firebase Authentication for `fh-stundenplan-30275`.
+2. Add every production hostname to the Firebase Authentication authorized domains.
+3. Deploy `database.rules.json` with `npx firebase-tools@latest deploy --only database`.
+
+The client stores each account's settings at `/users/{uid}/settings`. Realtime Database rules restrict that path to the authenticated owner.
+
 ## Code scaffolding
 
 Angular CLI includes powerful code scaffolding tools. To generate a new component, run:

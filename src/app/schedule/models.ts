@@ -30,6 +30,13 @@ export interface MyFilter {
   groupLetter: string;
 }
 
+export interface SettingsSnapshot {
+  schemaVersion: 1;
+  course: string | null;
+  filter: MyFilter;
+  savedEvents: WeekEvents;
+}
+
 export interface Course {
   courseOfStudy: string;
   semester: string[] | null;
@@ -48,8 +55,128 @@ export interface JsonObject {
   readonly [key: string]: JsonValue;
 }
 
-export function isJsonObject(value: JsonValue | undefined): value is JsonObject {
+export function isJsonObject(value: unknown): value is JsonObject {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+function parseStoredEvent(value: JsonValue): TimetableEvent | undefined {
+  if (!isJsonObject(value)) {
+    return undefined;
+  }
+  const courseId = value['courseId'];
+  const courseType = value['courseType'];
+  const name = value['name'];
+  const timeBegin = value['timeBegin'];
+  const timeEnd = value['timeEnd'];
+  const timestampBegin = value['timestampBegin'];
+  const roomId = value['roomId'];
+  const studentSet = value['studentSet'];
+  const lecturerName = value['lecturerName'];
+  if (
+    typeof courseId !== 'string' ||
+    typeof courseType !== 'string' ||
+    typeof name !== 'string' ||
+    typeof timeBegin !== 'string' ||
+    typeof timeEnd !== 'string' ||
+    typeof timestampBegin !== 'number' ||
+    typeof roomId !== 'string' ||
+    typeof studentSet !== 'string' ||
+    typeof lecturerName !== 'string'
+  ) {
+    return undefined;
+  }
+  return {
+    courseId,
+    courseType,
+    name,
+    timeBegin,
+    timeEnd,
+    timestampBegin,
+    roomId,
+    studentSet,
+    lecturerName,
+  };
+}
+
+export function parseWeekEvents(value: JsonValue): WeekEvents {
+  const week = EMPTY_WEEK();
+  if (!isJsonObject(value)) {
+    return week;
+  }
+  for (const day of WEEKDAYS) {
+    const stored = value[day];
+    if (!Array.isArray(stored)) {
+      continue;
+    }
+    week[day] = stored.flatMap((entry) => {
+      const event = parseStoredEvent(entry);
+      return event === undefined ? [] : [event];
+    });
+  }
+  return week;
+}
+
+function parseSyncedWeekEvents(value: JsonValue | undefined): WeekEvents | undefined {
+  if (value === undefined || value === null) {
+    return EMPTY_WEEK();
+  }
+  if (
+    !isJsonObject(value) ||
+    Object.keys(value).some((key) => !WEEKDAYS.includes(key as Weekday))
+  ) {
+    return undefined;
+  }
+  const week = EMPTY_WEEK();
+  for (const day of WEEKDAYS) {
+    const stored = value[day];
+    if (stored === undefined) {
+      continue;
+    }
+    if (!Array.isArray(stored)) {
+      return undefined;
+    }
+    const events: TimetableEvent[] = [];
+    for (const entry of stored) {
+      const event = parseStoredEvent(entry);
+      if (event === undefined) {
+        return undefined;
+      }
+      events.push(event);
+    }
+    week[day] = events;
+  }
+  return week;
+}
+
+export function parseSettingsSnapshot(value: unknown): SettingsSnapshot | undefined {
+  if (!isJsonObject(value) || value['schemaVersion'] !== 1) {
+    return undefined;
+  }
+  const course = value['course'];
+  const filter = value['filter'];
+  const savedEvents = parseSyncedWeekEvents(value['savedEvents']);
+  if (
+    (course !== undefined && course !== null && typeof course !== 'string') ||
+    (typeof course === 'string' && course.length > 100) ||
+    !isJsonObject(filter) ||
+    typeof filter['group'] !== 'boolean' ||
+    typeof filter['qdl'] !== 'boolean' ||
+    typeof filter['groupLetter'] !== 'string' ||
+    filter['groupLetter'].length > 1 ||
+    savedEvents === undefined
+  ) {
+    return undefined;
+  }
+  return {
+    schemaVersion: 1,
+    course: typeof course === 'string' ? course : null,
+    filter: {
+      group: filter['group'],
+      qdl: filter['qdl'],
+      groupLetter: filter['groupLetter'],
+    },
+    savedEvents,
+  };
 }
 
 /**
@@ -57,7 +184,15 @@ export function isJsonObject(value: JsonValue | undefined): value is JsonObject 
  * variants of the same course, so a plain courseId cannot key list items or saved picks.
  */
 export function eventKey(event: TimetableEvent): string {
-  return [event.courseId, event.studentSet, event.timeBegin, event.timeEnd, event.courseType, event.lecturerName, event.name].join('|');
+  return [
+    event.courseId,
+    event.studentSet,
+    event.timeBegin,
+    event.timeEnd,
+    event.courseType,
+    event.lecturerName,
+    event.name,
+  ].join('|');
 }
 
 function asString(value: JsonValue | undefined): string | undefined {

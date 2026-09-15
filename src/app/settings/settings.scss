@@ -52,6 +52,50 @@ mat-dialog-content {
   }
 }
 
+.sync-settings {
+  padding: 16px;
+  margin-top: 20px;
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: 4px;
+  background: var(--mat-sys-surface-container-low);
+
+  h3 {
+    margin: 0 0 4px;
+    font: var(--mat-sys-title-medium);
+  }
+
+  p {
+    margin: 0 0 14px;
+    color: var(--mat-sys-on-surface-variant);
+  }
+}
+
+.sync-status,
+.sync-active,
+.sync-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sync-active {
+  justify-content: space-between;
+}
+
+.sync-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: #2e7d32;
+}
+
+.sync-settings .sync-error {
+  margin-bottom: 10px;
+  color: var(--mat-sys-error);
+}
+
 button[mat-raised-button] {
   margin-top: 16px;
   margin-bottom: 14px;

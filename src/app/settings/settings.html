@@ -46,12 +46,51 @@
             QDL's anzeigen
           </mat-slide-toggle>
         </section>
+        <section class="sync-settings" aria-labelledby="sync-heading">
+          <div>
+            <h3 id="sync-heading">Geräteübergreifend synchronisieren</h3>
+            <p>
+              Optional mit Google anmelden, um Einstellungen und gespeicherte Termine zu
+              synchronisieren.
+            </p>
+          </div>
+          @switch (sync.status()) {
+            @case ('disabled') {
+              <button mat-stroked-button (click)="sync.signIn()">Mit Google anmelden</button>
+            }
+            @case ('signing-in') {
+              <div class="sync-status" role="status">
+                <mat-spinner diameter="22" />
+                Google-Anmeldung wird geöffnet
+              </div>
+            }
+            @case ('loading') {
+              <div class="sync-status" role="status">
+                <mat-spinner diameter="22" />
+                Einstellungen werden geladen
+              </div>
+            }
+            @case ('syncing') {
+              <div class="sync-active" role="status">
+                <span><span class="sync-dot"></span>Synchronisierung aktiv</span>
+                <button mat-button (click)="sync.signOut()">Abmelden</button>
+              </div>
+            }
+            @case ('error') {
+              <p class="sync-error" role="alert">{{ sync.errorMessage() }}</p>
+              <div class="sync-actions">
+                <button mat-stroked-button (click)="sync.retry()">Erneut versuchen</button>
+                <button mat-button (click)="sync.signOut()">Abmelden</button>
+              </div>
+            }
+          }
+        </section>
         <button mat-raised-button class="reset-btn" (click)="reset()">
           Stundenplan zurücksetzen
         </button>
         <br />
         <button mat-button class="impressum-btn" (click)="impressumVisible.set(true)">
-          Impressum
+          Impressum & Datenschutz
         </button>
       </section>
     }

@@ -3,81 +3,22 @@ import { Injectable, computed, effect, signal } from '@angular/core';
 import {
   EMPTY_WEEK,
   eventKey,
-  isJsonObject,
   parseCoursesResponse,
   parseEventsResponse,
+  parseWeekEvents,
   type Course,
   type JsonValue,
   type MyFilter,
+  type SettingsSnapshot,
   type TimetableEvent,
   type WeekEvents,
   type Weekday,
-  WEEKDAYS,
 } from './models';
 
 /** The day index shown on first load: Monday..Friday = 0..4, the weekend falls back to Monday. */
 function initialDay(): number {
   const today = new Date().getDay();
   return today === 0 || today === 6 ? 0 : today - 1;
-}
-
-function parseDayEvents(value: JsonValue): TimetableEvent[] {
-  if (!Array.isArray(value)) {
-    return [];
-  }
-  const events: TimetableEvent[] = [];
-  for (const entry of value) {
-    if (!isJsonObject(entry)) {
-      continue;
-    }
-    const courseId = entry['courseId'];
-    const courseType = entry['courseType'];
-    const name = entry['name'];
-    const timeBegin = entry['timeBegin'];
-    const timeEnd = entry['timeEnd'];
-    const timestampBegin = entry['timestampBegin'];
-    const roomId = entry['roomId'];
-    const studentSet = entry['studentSet'];
-    const lecturerName = entry['lecturerName'];
-    if (
-      typeof courseId === 'string' &&
-      typeof courseType === 'string' &&
-      typeof name === 'string' &&
-      typeof timeBegin === 'string' &&
-      typeof timeEnd === 'string' &&
-      typeof timestampBegin === 'number' &&
-      typeof roomId === 'string' &&
-      typeof studentSet === 'string' &&
-      typeof lecturerName === 'string'
-    ) {
-      events.push({
-        courseId,
-        courseType,
-        name,
-        timeBegin,
-        timeEnd,
-        timestampBegin,
-        roomId,
-        studentSet,
-        lecturerName,
-      });
-    }
-  }
-  return events;
-}
-
-function parseWeekEvents(value: JsonValue): WeekEvents {
-  const week = EMPTY_WEEK();
-  if (!isJsonObject(value)) {
-    return week;
-  }
-  for (const day of WEEKDAYS) {
-    const stored = value[day];
-    if (stored !== undefined) {
-      week[day] = parseDayEvents(stored);
-    }
-  }
-  return week;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -170,11 +111,30 @@ export class ScheduleStore {
     this.savedEvents.set(EMPTY_WEEK());
   }
 
+  settingsSnapshot(): SettingsSnapshot {
+    return {
+      schemaVersion: 1,
+      course: this.course() ?? null,
+      filter: this.filter(),
+      savedEvents: this.savedEvents(),
+    };
+  }
+
+  replaceSettings(snapshot: SettingsSnapshot): void {
+    this.setCourse(snapshot.course ?? undefined);
+    this.filter.set(snapshot.filter);
+    this.savedEvents.set(snapshot.savedEvents);
+  }
+
   private readSavedEvents(): WeekEvents {
     const raw = localStorage.getItem('savedEvents');
     if (raw === null) {
       return EMPTY_WEEK();
     }
-    return parseWeekEvents(JSON.parse(raw) as JsonValue);
+    try {
+      return parseWeekEvents(JSON.parse(raw) as JsonValue);
+    } catch {
+      return EMPTY_WEEK();
+    }
   }
 }

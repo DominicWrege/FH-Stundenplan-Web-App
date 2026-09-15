@@ -6,4 +6,26 @@
   <p>wrege@domi-me.de</p>
   <p>02388/3701</p>
 </div>
+<h2>Datenschutz</h2>
+<p>
+  Die Nutzung des Stundenplans ist ohne Anmeldung möglich. Die optionale Synchronisierung wird erst
+  nach einer Anmeldung mit Google aktiviert.
+</p>
+<p>
+  Für die Anmeldung und Speicherung werden Firebase Authentication und Firebase Realtime Database
+  von Google verwendet. Dabei verarbeitet Google die für die Anmeldung erforderlichen Kontodaten. In
+  Firebase werden der gewählte Studiengang, Filtereinstellungen und gespeicherte Termine unter einer
+  Benutzer-ID abgelegt.
+</p>
+<p>
+  Eine Abmeldung beendet die Synchronisierung und behält die Einstellungen auf diesem Gerät. Die
+  Daten in Firebase werden dadurch nicht gelöscht. Eine Löschung kann per E-Mail an
+  <a href="mailto:wrege@domi-me.de">wrege@domi-me.de</a> angefordert werden.
+</p>
+<p>
+  Weitere Informationen enthält die
+  <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">
+    Datenschutzerklärung von Google </a
+  >.
+</p>
 <button mat-button (click)="close.emit()">Zurück</button>
