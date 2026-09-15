@@ -4,6 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ScheduleStore } from '../schedule/schedule-store';
 import { applyFilter, eventKey, type TimetableEvent, type Weekday } from '../schedule/models';
 
@@ -12,7 +13,14 @@ import { applyFilter, eventKey, type TimetableEvent, type Weekday } from '../sch
   templateUrl: './timetable.html',
   styleUrl: './timetable.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatButtonModule, MatCardModule, MatCheckboxModule, MatDividerModule, MatIconModule],
+  imports: [
+    MatButtonModule,
+    MatCardModule,
+    MatCheckboxModule,
+    MatDividerModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+  ],
   host: { '[class.active]': 'active()', '[class.editing]': 'inEditMode()' },
 })
 export class Timetable {
@@ -20,6 +28,7 @@ export class Timetable {
   readonly weekday = input.required<Weekday>();
   readonly active = input(false);
   readonly eventKey = eventKey;
+  readonly eventsLoading = computed(() => this.store.events.isLoading());
 
   readonly inEditMode = signal(false);
   readonly picked = signal<ReadonlySet<string>>(new Set<string>());
@@ -30,7 +39,7 @@ export class Timetable {
       return this.store.events.value()[this.weekday()] ?? [];
     }
     const saved = this.store.savedEvents()[this.weekday()];
-    return saved.length > 0 ? saved : this.store.events.value()[this.weekday()] ?? [];
+    return saved.length > 0 ? saved : (this.store.events.value()[this.weekday()] ?? []);
   });
 
   readonly visible = computed(() =>
@@ -52,13 +61,18 @@ export class Timetable {
   }
 
   enterEditMode(): void {
-    this.picked.set(new Set(this.store.savedEvents()[this.weekday()].map((event) => eventKey(event))));
+    this.picked.set(
+      new Set(this.store.savedEvents()[this.weekday()].map((event) => eventKey(event))),
+    );
     this.inEditMode.set(true);
   }
 
   savePicked(): void {
     const pickedKeys = this.picked();
-    this.store.saveEvents(this.weekday(), this.sourceList().filter((event) => pickedKeys.has(eventKey(event))));
+    this.store.saveEvents(
+      this.weekday(),
+      this.sourceList().filter((event) => pickedKeys.has(eventKey(event))),
+    );
     this.picked.set(new Set<string>());
     this.inEditMode.set(false);
   }

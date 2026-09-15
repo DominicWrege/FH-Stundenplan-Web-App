@@ -1,45 +1,51 @@
 <mat-card class="paper-list">
-  @for (item of visible(); track eventKey(item); let last = $last) {
-    <div class="event">
-      @if (inEditMode()) {
-        <mat-checkbox
-          class="pick"
-          [checked]="picked().has(eventKey(item))"
-          (change)="togglePick(eventKey(item), $event.checked)"
-        />
-      }
-      <table>
-        <tbody>
-          <tr>
-            <td>
-              <b>{{ item.courseType }} {{ item.name }}</b>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              {{ item.timeBegin }} - {{ item.timeEnd }} <span></span>|
-              <span>{{ item.roomId }}</span>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              {{ item.studentSet }} <span></span>| <span>{{ item.lecturerName }}</span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+  @if (eventsLoading()) {
+    <div class="loading" role="status" aria-label="Termine werden geladen">
+      <mat-spinner diameter="40" />
     </div>
-    @if (!last) {
-      <mat-divider />
-    }
-  } @empty {
-    <div class="empty">
-      <div class="empty-badge">
-        <mat-icon>local_cafe</mat-icon>
+  } @else {
+    @for (item of visible(); track eventKey(item); let last = $last) {
+      <div class="event">
+        @if (inEditMode()) {
+          <mat-checkbox
+            class="pick"
+            [checked]="picked().has(eventKey(item))"
+            (change)="togglePick(eventKey(item), $event.checked)"
+          />
+        }
+        <table>
+          <tbody>
+            <tr>
+              <td>
+                <b>{{ item.courseType }} {{ item.name }}</b>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                {{ item.timeBegin }} - {{ item.timeEnd }} <span></span>|
+                <span>{{ item.roomId }}</span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                {{ item.studentSet }} <span></span>| <span>{{ item.lecturerName }}</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <p class="empty-title">Keine Termine</p>
-      <p class="empty-subtitle">Freie Zeit – genieß den Tag!</p>
-    </div>
+      @if (!last) {
+        <mat-divider />
+      }
+    } @empty {
+      <div class="empty">
+        <div class="empty-badge">
+          <mat-icon>local_cafe</mat-icon>
+        </div>
+        <p class="empty-title">Keine Termine</p>
+        <p class="empty-subtitle">Freie Zeit – genieß den Tag!</p>
+      </div>
+    }
   }
 </mat-card>
 @if (inEditMode()) {

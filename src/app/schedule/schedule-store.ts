@@ -50,7 +50,17 @@ function parseDayEvents(value: JsonValue): TimetableEvent[] {
       typeof studentSet === 'string' &&
       typeof lecturerName === 'string'
     ) {
-      events.push({ courseId, courseType, name, timeBegin, timeEnd, timestampBegin, roomId, studentSet, lecturerName });
+      events.push({
+        courseId,
+        courseType,
+        name,
+        timeBegin,
+        timeEnd,
+        timestampBegin,
+        roomId,
+        studentSet,
+        lecturerName,
+      });
     }
   }
   return events;
@@ -92,12 +102,16 @@ export class ScheduleStore {
     }
     return `${this.baseFeedUrl}/CourseOfStudy/${courseOfStudy}/${semester}/Events${this.acceptJson}`;
   });
-  readonly events = httpResource.text<WeekEvents>(() => this.feedUrl(), {
-    defaultValue: EMPTY_WEEK(),
-    parse: parseEventsResponse,
-  });
+  readonly events = httpResource.text<WeekEvents>(
+    () => {
+      const url = this.feedUrl();
+      return url === undefined ? undefined : { url, keepalive: true };
+    },
+    { defaultValue: EMPTY_WEEK(), parse: parseEventsResponse },
+  );
   readonly courses = httpResource.text<Course[]>(
-    () => (this.settingsVisible() ? `${this.baseFeedUrl}/CourseOfStudy/${this.acceptJson}` : undefined),
+    () =>
+      this.settingsVisible() ? `${this.baseFeedUrl}/CourseOfStudy/${this.acceptJson}` : undefined,
     { parse: parseCoursesResponse },
   );
 

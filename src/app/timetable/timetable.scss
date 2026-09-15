@@ -28,6 +28,13 @@
   display: none;
 }
 
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 168px;
+}
+
 .empty {
   display: flex;
   flex-direction: column;
