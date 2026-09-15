@@ -31,9 +31,9 @@ export class App {
   readonly weekdays = WEEKDAYS;
   readonly labels = WEEKDAY_LABELS;
 
-  private swipePointerId: number | undefined;
   private swipeStartX = 0;
   private swipeStartY = 0;
+  private ignoreTabClickUntil = 0;
 
   constructor() {
     // First load without a saved feed opens the settings dialog, like the original `_firstRendered`.
@@ -65,36 +65,41 @@ export class App {
     });
   }
 
-  onSwipeStart(event: PointerEvent): void {
-    if (event.pointerType !== 'touch') {
+  selectDay(index: number): void {
+    if (Date.now() < this.ignoreTabClickUntil) {
       return;
     }
-    this.swipePointerId = event.pointerId;
-    this.swipeStartX = event.clientX;
-    this.swipeStartY = event.clientY;
-
-    if (event.currentTarget instanceof HTMLElement) {
-      event.currentTarget.setPointerCapture(event.pointerId);
-    }
+    this.store.selectedDay.set(index);
   }
 
-  onSwipeEnd(event: PointerEvent): void {
-    if (event.pointerId !== this.swipePointerId) {
+  onSwipeStart(event: TouchEvent): void {
+    const touch = event.touches[0];
+    if (touch === undefined) {
       return;
     }
-    this.swipePointerId = undefined;
+    this.swipeStartX = touch.clientX;
+    this.swipeStartY = touch.clientY;
+  }
 
-    const dx = event.clientX - this.swipeStartX;
-    const dy = event.clientY - this.swipeStartY;
+  onSwipeEnd(event: TouchEvent): void {
+    const touch = event.changedTouches[0];
+    if (touch === undefined) {
+      return;
+    }
+
+    const dx = touch.clientX - this.swipeStartX;
+    const dy = touch.clientY - this.swipeStartY;
     // Ignore short swipes and mostly-vertical gestures so scrolling still works.
     if (Math.abs(dx) < 50 || Math.abs(dx) <= Math.abs(dy)) {
       return;
     }
+    this.ignoreTabClickUntil = Date.now() + 500;
     this.goToDay(this.store.selectedDay() + (dx < 0 ? 1 : -1));
   }
 
   cancelSwipe(): void {
-    this.swipePointerId = undefined;
+    this.swipeStartX = 0;
+    this.swipeStartY = 0;
   }
 
   private goToDay(index: number): void {

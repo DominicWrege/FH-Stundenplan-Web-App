@@ -1,25 +1,28 @@
-<header class="app-header">
-  <mat-toolbar class="toolbar">
-    <span class="title">FH-Stundenplan</span>
-    <button mat-icon-button (click)="toggleSettings()" aria-label="Einstellungen">
-      <mat-icon>settings</mat-icon>
-    </button>
-  </mat-toolbar>
-  <nav mat-tab-nav-bar [tabPanel]="panel" class="tabs">
-    @for (day of weekdays; track day; let i = $index) {
-      <a mat-tab-link (click)="store.selectedDay.set(i)" [active]="store.selectedDay() === i">
-        {{ labels[day] }}
-      </a>
-    }
-  </nav>
-  <mat-tab-nav-panel #panel />
-</header>
-<main
-  (pointerdown)="onSwipeStart($event)"
-  (pointerup)="onSwipeEnd($event)"
-  (pointercancel)="cancelSwipe()"
+<div
+  class="app-shell"
+  (touchstart)="onSwipeStart($event)"
+  (touchend)="onSwipeEnd($event)"
+  (touchcancel)="cancelSwipe()"
 >
-  @for (day of weekdays; track day; let i = $index) {
-    <app-timetable [weekday]="day" [active]="store.selectedDay() === i" />
-  }
-</main>
+  <header class="app-header">
+    <mat-toolbar class="toolbar">
+      <span class="title">FH-Stundenplan</span>
+      <button mat-icon-button (click)="toggleSettings()" aria-label="Einstellungen">
+        <mat-icon>settings</mat-icon>
+      </button>
+    </mat-toolbar>
+    <nav mat-tab-nav-bar [tabPanel]="panel" class="tabs">
+      @for (day of weekdays; track day; let i = $index) {
+        <a mat-tab-link (click)="selectDay(i)" [active]="store.selectedDay() === i">
+          {{ labels[day] }}
+        </a>
+      }
+    </nav>
+    <mat-tab-nav-panel #panel />
+  </header>
+  <main>
+    @for (day of weekdays; track day; let i = $index) {
+      <app-timetable [weekday]="day" [active]="store.selectedDay() === i" />
+    }
+  </main>
+</div>
