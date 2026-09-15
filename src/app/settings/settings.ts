@@ -5,9 +5,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
-import { MatSlideToggleChange, MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { Impressum } from '../impressum/impressum';
-import { type Course, type MyFilter } from '../schedule/models';
+import { type Course } from '../schedule/models';
 import { ScheduleStore } from '../schedule/schedule-store';
 
 interface CourseOption {

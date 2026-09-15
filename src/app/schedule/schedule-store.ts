@@ -145,11 +145,9 @@ export class ScheduleStore {
     this.course.set(course);
     if (course === undefined) {
       localStorage.removeItem('course');
-      localStorage.removeItem('feedEventsUrl');
       return;
     }
     localStorage.setItem('course', course);
-    localStorage.setItem('feedEventsUrl', this.feedUrl() ?? '');
   }
 
   setFilter(filter: MyFilter): void {

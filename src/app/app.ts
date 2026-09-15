@@ -39,7 +39,7 @@ export class App {
 
   constructor() {
     // First load without a saved feed opens the settings dialog, like the original `_firstRendered`.
-    if (localStorage.getItem('feedEventsUrl') === null) {
+    if (localStorage.getItem('course') === null) {
       this.openSettings();
     }
   }

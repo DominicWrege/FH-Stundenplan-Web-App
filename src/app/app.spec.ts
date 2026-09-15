@@ -6,9 +6,14 @@ import { App } from './app';
 
 const FEED_URL =
   'https://ws.inf.fh-dortmund.de/timetable/current/rest/CourseOfStudy/INFO/1/Events?Accept=application%2Fjson';
-const COURSES_URL = 'https://ws.inf.fh-dortmund.de/timetable/current/rest/CourseOfStudy/?Accept=application%2Fjson';
+const COURSES_URL =
+  'https://ws.inf.fh-dortmund.de/timetable/current/rest/CourseOfStudy/?Accept=application%2Fjson';
 
-function createApp(): { fixture: ComponentFixture<App>; element: HTMLElement; http: HttpTestingController } {
+function createApp(): {
+  fixture: ComponentFixture<App>;
+  element: HTMLElement;
+  http: HttpTestingController;
+} {
   const fixture = TestBed.createComponent(App);
   // httpResource fetches lazily on first render, so drive one CD cycle before expecting the request.
   fixture.detectChanges();
@@ -20,7 +25,6 @@ function createApp(): { fixture: ComponentFixture<App>; element: HTMLElement; ht
 describe('App', () => {
   beforeEach(async () => {
     localStorage.clear();
-    localStorage.setItem('feedEventsUrl', FEED_URL);
     localStorage.setItem('course', 'INFO 1');
     await TestBed.configureTestingModule({
       imports: [App],
