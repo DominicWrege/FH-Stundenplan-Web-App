@@ -110,8 +110,12 @@ export class ScheduleStore {
     { defaultValue: EMPTY_WEEK(), parse: parseEventsResponse },
   );
   readonly courses = httpResource.text<Course[]>(
-    () =>
-      this.settingsVisible() ? `${this.baseFeedUrl}/CourseOfStudy/${this.acceptJson}` : undefined,
+    () => {
+      const url = this.settingsVisible()
+        ? `${this.baseFeedUrl}/CourseOfStudy/${this.acceptJson}`
+        : undefined;
+      return url === undefined ? undefined : { url, keepalive: true };
+    },
     { parse: parseCoursesResponse },
   );
 
