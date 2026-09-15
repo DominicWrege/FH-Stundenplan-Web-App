@@ -8,23 +8,22 @@
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
-  src: url("/fonts/Roboto-Regular.ttf") format('truetype');
+  src: url('/fonts/Roboto-Regular.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 700;
-  src: url("/fonts/Roboto-Bold.ttf") format('truetype');
+  src: url('/fonts/Roboto-Bold.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'Roboto';
   font-style: italic;
   font-weight: 300;
-  src: url("/fonts/Roboto-Italic.ttf") format('truetype');
+  src: url('/fonts/Roboto-Italic.ttf') format('truetype');
 }
-
 
 html {
   height: 100%;
@@ -59,15 +58,19 @@ body {
 }
 
 body {
-  font-family: "Roboto", "Noto", "Helvetica Neue", "Helvetica", sans-serif;
+  font-family: 'Roboto', 'Noto', 'Helvetica Neue', 'Helvetica', sans-serif;
   line-height: 1.5;
   min-height: 100vh;
-  background-color: #F3F4F5;
+  background-color: #f3f4f5;
 }
 
 /* OG paper-dialog look: small radius instead of the Material 3 large one. */
 .mat-mdc-dialog-surface {
   border-radius: 4px;
+}
+
+.cdk-overlay-backdrop {
+  background: rgba(0, 0, 0, 0.18);
 }
 
 @media (max-width: 600px) {
