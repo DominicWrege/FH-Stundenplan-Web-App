@@ -14,7 +14,14 @@ import { Timetable } from './timetable/timetable';
   templateUrl: './app.html',
   styleUrl: './app.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatButtonModule, MatDialogModule, MatIconModule, MatTabsModule, MatToolbarModule, Timetable],
+  imports: [
+    MatButtonModule,
+    MatDialogModule,
+    MatIconModule,
+    MatTabsModule,
+    MatToolbarModule,
+    Timetable,
+  ],
 })
 export class App {
   private readonly dialog = inject(MatDialog);
@@ -23,6 +30,9 @@ export class App {
   readonly store = inject(ScheduleStore);
   readonly weekdays = WEEKDAYS;
   readonly labels = WEEKDAY_LABELS;
+
+  private touchStartX = 0;
+  private touchStartY = 0;
 
   constructor() {
     // First load without a saved feed opens the settings dialog, like the original `_firstRendered`.
@@ -52,5 +62,35 @@ export class App {
       this.dialogRef = null;
       this.store.settingsVisible.set(false);
     });
+  }
+
+  onSwipeStart(event: TouchEvent): void {
+    const touch = event.changedTouches[0];
+    if (touch === undefined) {
+      return;
+    }
+    this.touchStartX = touch.clientX;
+    this.touchStartY = touch.clientY;
+  }
+
+  onSwipeEnd(event: TouchEvent): void {
+    const touch = event.changedTouches[0];
+    if (touch === undefined) {
+      return;
+    }
+    const dx = touch.clientX - this.touchStartX;
+    const dy = touch.clientY - this.touchStartY;
+    // Ignore short swipes and mostly-vertical gestures so scrolling still works.
+    if (Math.abs(dx) < 50 || Math.abs(dx) <= Math.abs(dy)) {
+      return;
+    }
+    this.goToDay(this.store.selectedDay() + (dx < 0 ? 1 : -1));
+  }
+
+  private goToDay(index: number): void {
+    if (index < 0 || index >= this.weekdays.length) {
+      return;
+    }
+    this.store.selectedDay.set(index);
   }
 }

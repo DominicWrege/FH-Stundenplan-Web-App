@@ -8,24 +8,36 @@
             <mat-icon>close</mat-icon>
           </button>
         </header>
+        @if (store.courses.isLoading()) {
+          <div class="loading">
+            <mat-spinner diameter="44" />
+          </div>
+        } @else {
+          <mat-form-field appearance="outline" class="full">
+            <mat-label>Studiengang</mat-label>
+            <mat-select [value]="store.course()" (selectionChange)="courseChanged($event)">
+              @for (option of courseOptions(); track option.value) {
+                <mat-option [value]="option.value">{{ option.label }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        }
         <mat-form-field appearance="outline" class="full">
-          <mat-label>Studiengang</mat-label>
-          <mat-select [value]="store.course()" (selectionChange)="courseChanged($event)">
-            @for (option of courseOptions(); track option.value) {
-              <mat-option [value]="option.value">{{ option.label }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="letter">
           <mat-label>Gruppenbuchstabe</mat-label>
-          <mat-select [value]="store.filter().groupLetter" (selectionChange)="groupLetterChanged($event)">
+          <mat-select
+            [value]="store.filter().groupLetter"
+            (selectionChange)="groupLetterChanged($event)"
+          >
             @for (letter of groupLetters; track letter) {
               <mat-option [value]="letter">{{ letter }}</mat-option>
             }
           </mat-select>
         </mat-form-field>
         <section class="switch">
-          <mat-slide-toggle [checked]="store.filter().group" (change)="groupChanged($event.checked)">
+          <mat-slide-toggle
+            [checked]="store.filter().group"
+            (change)="groupChanged($event.checked)"
+          >
             Nach Gruppenbuchstabe filtern
           </mat-slide-toggle>
         </section>
@@ -34,9 +46,13 @@
             QDL's anzeigen
           </mat-slide-toggle>
         </section>
-        <button mat-raised-button class="reset-btn" (click)="reset()">Stundenplan zurücksetzen</button>
+        <button mat-raised-button class="reset-btn" (click)="reset()">
+          Stundenplan zurücksetzen
+        </button>
         <br />
-        <button mat-button class="impressum-btn" (click)="impressumVisible.set(true)">Impressum</button>
+        <button mat-button class="impressum-btn" (click)="impressumVisible.set(true)">
+          Impressum
+        </button>
       </section>
     }
     @case (true) {

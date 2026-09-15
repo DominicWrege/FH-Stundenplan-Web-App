@@ -16,7 +16,7 @@
   }
   <mat-tab-nav-panel #panel />
 </header>
-<main>
+<main (touchstart)="onSwipeStart($event)" (touchend)="onSwipeEnd($event)">
   @for (day of weekdays; track day; let i = $index) {
     <app-timetable [weekday]="day" [active]="store.selectedDay() === i" />
   }

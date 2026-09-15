@@ -1,5 +1,5 @@
 mat-dialog-content {
-  padding: 16px 24px 24px;
+  padding: 16px 24px 2rem;
 }
 
 :host {
@@ -19,12 +19,27 @@ mat-dialog-content {
 }
 
 .full {
-  width: 95%;
+  width: 100%;
 }
 
-.letter {
-  width: 230px;
-  margin-bottom: 0.25em;
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  margin-bottom: 1.25em;
+}
+
+.close-btn {
+  color: var(--mat-sys-on-surface-variant);
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+
+  &:hover {
+    background-color: color-mix(in srgb, var(--mat-sys-error) 12%, transparent);
+    color: var(--mat-sys-error);
+  }
 }
 
 .switch {

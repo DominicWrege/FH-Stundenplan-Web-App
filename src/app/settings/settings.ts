@@ -3,6 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleChange, MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { Impressum } from '../impressum/impressum';
@@ -21,7 +22,16 @@ const GROUP_LETTERS: readonly string[] = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
   templateUrl: './settings.html',
   styleUrl: './settings.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatButtonModule, MatDialogModule, MatIconModule, MatFormFieldModule, MatSelectModule, MatSlideToggleModule, Impressum],
+  imports: [
+    MatButtonModule,
+    MatDialogModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatProgressSpinnerModule,
+    MatSelectModule,
+    MatSlideToggleModule,
+    Impressum,
+  ],
 })
 export class Settings {
   readonly store = inject(ScheduleStore);

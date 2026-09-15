@@ -11,13 +11,20 @@
       <table>
         <tbody>
           <tr>
-            <td><b>{{ item.courseType }} {{ item.name }}</b></td>
+            <td>
+              <b>{{ item.courseType }} {{ item.name }}</b>
+            </td>
           </tr>
           <tr>
-            <td>{{ item.timeBegin }} - {{ item.timeEnd }} <span></span>| <span>{{ item.roomId }}</span></td>
+            <td>
+              {{ item.timeBegin }} - {{ item.timeEnd }} <span></span>|
+              <span>{{ item.roomId }}</span>
+            </td>
           </tr>
           <tr>
-            <td>{{ item.studentSet }} <span></span>| <span>{{ item.lecturerName }}</span></td>
+            <td>
+              {{ item.studentSet }} <span></span>| <span>{{ item.lecturerName }}</span>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -26,7 +33,13 @@
       <mat-divider />
     }
   } @empty {
-    <p class="empty">Keine Termine</p>
+    <div class="empty">
+      <div class="empty-badge">
+        <mat-icon>local_cafe</mat-icon>
+      </div>
+      <p class="empty-title">Keine Termine</p>
+      <p class="empty-subtitle">Freie Zeit – genieß den Tag!</p>
+    </div>
   }
 </mat-card>
 @if (inEditMode()) {
