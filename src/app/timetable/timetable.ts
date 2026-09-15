@@ -1,17 +1,17 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ScheduleStore } from '../schedule/schedule-store';
-import { applyFilter, eventKey, type TimetableEvent, type Weekday } from '../schedule/models';
+import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from "@angular/core";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCardModule } from "@angular/material/card";
+import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatDividerModule } from "@angular/material/divider";
+import { MatIconModule } from "@angular/material/icon";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { ScheduleStore } from "../schedule/schedule-store";
+import { applyFilter, eventKey, type TimetableEvent, type Weekday } from "../schedule/models";
 
 @Component({
-  selector: 'app-timetable',
-  templateUrl: './timetable.html',
-  styleUrl: './timetable.scss',
+  selector: "app-timetable",
+  templateUrl: "./timetable.html",
+  styleUrl: "./timetable.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     MatButtonModule,
@@ -21,7 +21,7 @@ import { applyFilter, eventKey, type TimetableEvent, type Weekday } from '../sch
     MatIconModule,
     MatProgressSpinnerModule,
   ],
-  host: { '[class.active]': 'active()', '[class.editing]': 'inEditMode()' },
+  host: { "[class.active]": "active()", "[class.editing]": "inEditMode()" },
 })
 export class Timetable {
   private readonly store = inject(ScheduleStore);

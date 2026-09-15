@@ -1,5 +1,5 @@
-import { InjectionToken } from '@angular/core';
-import type { SettingsSnapshot } from '../schedule/models';
+import { InjectionToken } from "@angular/core";
+import type { SettingsSnapshot } from "../schedule/models";
 
 export interface SettingsSyncBackend {
   currentUid(): Promise<string | null>;
@@ -17,11 +17,11 @@ export interface SettingsSyncBackend {
 export type SettingsSyncBackendFactory = () => Promise<SettingsSyncBackend>;
 
 export const SETTINGS_SYNC_BACKEND_FACTORY = new InjectionToken<SettingsSyncBackendFactory>(
-  'SETTINGS_SYNC_BACKEND_FACTORY',
+  "SETTINGS_SYNC_BACKEND_FACTORY",
   {
-    providedIn: 'root',
+    providedIn: "root",
     factory: () => async () => {
-      const { FirebaseSettingsSyncBackend } = await import('./firebase-settings-sync-backend');
+      const { FirebaseSettingsSyncBackend } = await import("./firebase-settings-sync-backend");
       return new FirebaseSettingsSyncBackend();
     },
   },

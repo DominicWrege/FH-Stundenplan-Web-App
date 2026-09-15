@@ -1,27 +1,27 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSelectChange, MatSelectModule } from '@angular/material/select';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { Impressum } from '../impressum/impressum';
-import { type Course } from '../schedule/models';
-import { ScheduleStore } from '../schedule/schedule-store';
-import { SettingsSync } from '../settings-sync/settings-sync';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from "@angular/core";
+import { MatButtonModule } from "@angular/material/button";
+import { MatDialogModule, MatDialogRef } from "@angular/material/dialog";
+import { MatIconModule } from "@angular/material/icon";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatSelectChange, MatSelectModule } from "@angular/material/select";
+import { MatSlideToggleModule } from "@angular/material/slide-toggle";
+import { Impressum } from "../impressum/impressum";
+import { type Course } from "../schedule/models";
+import { ScheduleStore } from "../schedule/schedule-store";
+import { SettingsSync } from "../settings-sync/settings-sync";
 
 interface CourseOption {
   value: string;
   label: string;
 }
 
-const GROUP_LETTERS: readonly string[] = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+const GROUP_LETTERS: readonly string[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
 @Component({
-  selector: 'app-settings',
-  templateUrl: './settings.html',
-  styleUrl: './settings.scss',
+  selector: "app-settings",
+  templateUrl: "./settings.html",
+  styleUrl: "./settings.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     MatButtonModule,

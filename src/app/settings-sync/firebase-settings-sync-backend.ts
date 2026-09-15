@@ -1,4 +1,4 @@
-import { getApp, getApps, initializeApp } from 'firebase/app';
+import { getApp, getApps, initializeApp } from "firebase/app";
 import {
   browserLocalPersistence,
   getAuth,
@@ -6,11 +6,11 @@ import {
   setPersistence,
   signInWithPopup,
   signOut,
-} from 'firebase/auth';
-import { get, getDatabase, onValue, ref, serverTimestamp, set } from 'firebase/database';
-import { parseSettingsSnapshot, type SettingsSnapshot } from '../schedule/models';
-import { FIREBASE_CONFIG } from './firebase.config';
-import type { SettingsSyncBackend } from './settings-sync-backend';
+} from "firebase/auth";
+import { get, getDatabase, onValue, ref, serverTimestamp, set } from "firebase/database";
+import { parseSettingsSnapshot, type SettingsSnapshot } from "../schedule/models";
+import { FIREBASE_CONFIG } from "./firebase.config";
+import type { SettingsSyncBackend } from "./settings-sync-backend";
 
 export class FirebaseSettingsSyncBackend implements SettingsSyncBackend {
   private readonly app = getApps().length === 0 ? initializeApp(FIREBASE_CONFIG) : getApp();
@@ -44,7 +44,7 @@ export class FirebaseSettingsSyncBackend implements SettingsSyncBackend {
         try {
           next(snapshot.exists() ? this.parse(snapshot.val()) : null);
         } catch (cause) {
-          error(cause instanceof Error ? cause : new Error('Synchronisierte Daten sind ungültig.'));
+          error(cause instanceof Error ? cause : new Error("Synchronisierte Daten sind ungültig."));
         }
       },
       (cause) => error(cause),
@@ -66,7 +66,7 @@ export class FirebaseSettingsSyncBackend implements SettingsSyncBackend {
   private parse(value: unknown): SettingsSnapshot {
     const snapshot = parseSettingsSnapshot(value);
     if (snapshot === undefined) {
-      throw new Error('Die synchronisierten Einstellungen haben ein ungültiges Format.');
+      throw new Error("Die synchronisierten Einstellungen haben ein ungültiges Format.");
     }
     return snapshot;
   }

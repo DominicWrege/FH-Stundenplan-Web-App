@@ -68,6 +68,16 @@ app-timetable {
 }
 
 @media (max-width: 650px) {
+  .tabs {
+    /* Condense the five weekday labels so mobile needs no pagination arrows. */
+    .mdc-tab {
+      flex: 1 1 0;
+      min-width: 44px;
+      padding-left: 6px;
+      padding-right: 6px;
+    }
+  }
+
   .toolbar {
     height: 52px;
   }

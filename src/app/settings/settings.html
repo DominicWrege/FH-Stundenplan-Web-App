@@ -56,30 +56,30 @@
             <p>Einstellungen optional über Google synchronisieren.</p>
           </div>
           @switch (sync.status()) {
-            @case ('disabled') {
+            @case ("disabled") {
               <button mat-stroked-button class="google-sign-in" (click)="sync.signIn()">
                 Google-Anmeldung
               </button>
             }
-            @case ('signing-in') {
+            @case ("signing-in") {
               <div class="sync-status" role="status">
                 <mat-spinner diameter="22" />
                 Google-Anmeldung wird geöffnet
               </div>
             }
-            @case ('loading') {
+            @case ("loading") {
               <div class="sync-status" role="status">
                 <mat-spinner diameter="22" />
                 Einstellungen werden geladen
               </div>
             }
-            @case ('syncing') {
+            @case ("syncing") {
               <div class="sync-active" role="status">
                 <span><span class="sync-dot"></span>Synchronisierung aktiv</span>
                 <button mat-button (click)="sync.signOut()">Abmelden</button>
               </div>
             }
-            @case ('error') {
+            @case ("error") {
               <p class="sync-error" role="alert">{{ sync.errorMessage() }}</p>
               <div class="sync-actions">
                 <button mat-stroked-button (click)="sync.retry()">Erneut versuchen</button>

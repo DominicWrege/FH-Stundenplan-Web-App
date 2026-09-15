@@ -1,19 +1,19 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { WEEKDAYS, WEEKDAY_LABELS } from './schedule/models';
-import { ScheduleStore } from './schedule/schedule-store';
-import { Settings } from './settings/settings';
-import { SettingsSync } from './settings-sync/settings-sync';
-import { Timetable } from './timetable/timetable';
+import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
+import { MatButtonModule } from "@angular/material/button";
+import { MatDialog, MatDialogModule, MatDialogRef } from "@angular/material/dialog";
+import { MatIconModule } from "@angular/material/icon";
+import { MatTabsModule } from "@angular/material/tabs";
+import { MatToolbarModule } from "@angular/material/toolbar";
+import { WEEKDAYS, WEEKDAY_LABELS } from "./schedule/models";
+import { ScheduleStore } from "./schedule/schedule-store";
+import { Settings } from "./settings/settings";
+import { SettingsSync } from "./settings-sync/settings-sync";
+import { Timetable } from "./timetable/timetable";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.html',
-  styleUrl: './app.scss',
+  selector: "app-root",
+  templateUrl: "./app.html",
+  styleUrl: "./app.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     MatButtonModule,
@@ -41,7 +41,7 @@ export class App {
   constructor() {
     inject(SettingsSync);
     // First load without a saved feed opens the settings dialog, like the original `_firstRendered`.
-    if (localStorage.getItem('course') === null) {
+    if (localStorage.getItem("course") === null) {
       this.openSettings();
     }
   }
@@ -57,9 +57,9 @@ export class App {
   private openSettings(): void {
     this.store.settingsVisible.set(true);
     this.dialogRef = this.dialog.open(Settings, {
-      width: '85%',
-      maxWidth: '720px',
-      maxHeight: '90vh',
+      width: "85%",
+      maxWidth: "720px",
+      maxHeight: "90vh",
       disableClose: true,
       autoFocus: false,
     });
