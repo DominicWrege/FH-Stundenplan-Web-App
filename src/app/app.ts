@@ -33,6 +33,8 @@ export class App {
 
   private swipeStartX = 0;
   private swipeStartY = 0;
+  private swipeActive = false;
+  private horizontalSwipe = false;
   private ignoreTabClickUntil = 0;
 
   constructor() {
@@ -77,8 +79,30 @@ export class App {
     if (touch === undefined) {
       return;
     }
+    this.swipeActive = true;
+    this.horizontalSwipe = false;
     this.swipeStartX = touch.clientX;
     this.swipeStartY = touch.clientY;
+  }
+
+  onSwipeMove(event: TouchEvent): void {
+    if (!this.swipeActive) {
+      return;
+    }
+    const touch = event.touches[0];
+    if (touch === undefined) {
+      return;
+    }
+
+    const dx = touch.clientX - this.swipeStartX;
+    const dy = touch.clientY - this.swipeStartY;
+    if (Math.abs(dx) < 10 && Math.abs(dy) < 10) {
+      return;
+    }
+    this.horizontalSwipe = Math.abs(dx) > Math.abs(dy);
+    if (this.horizontalSwipe) {
+      event.preventDefault();
+    }
   }
 
   onSwipeEnd(event: TouchEvent): void {
@@ -86,11 +110,28 @@ export class App {
     if (touch === undefined) {
       return;
     }
+    this.finishSwipe(touch.clientX, touch.clientY);
+  }
 
-    const dx = touch.clientX - this.swipeStartX;
-    const dy = touch.clientY - this.swipeStartY;
+  onSwipeCancel(event: TouchEvent): void {
+    const touch = event.changedTouches[0] ?? event.touches[0];
+    if (touch !== undefined) {
+      this.finishSwipe(touch.clientX, touch.clientY);
+      return;
+    }
+    this.cancelSwipe();
+  }
+
+  private finishSwipe(endX: number, endY: number): void {
+    if (!this.swipeActive) {
+      return;
+    }
+    this.swipeActive = false;
+
+    const dx = endX - this.swipeStartX;
+    const dy = endY - this.swipeStartY;
     // Ignore short swipes and mostly-vertical gestures so scrolling still works.
-    if (Math.abs(dx) < 50 || Math.abs(dx) <= Math.abs(dy)) {
+    if (!this.horizontalSwipe || Math.abs(dx) < 50 || Math.abs(dx) <= Math.abs(dy)) {
       return;
     }
     this.ignoreTabClickUntil = Date.now() + 500;
@@ -98,6 +139,8 @@ export class App {
   }
 
   cancelSwipe(): void {
+    this.swipeActive = false;
+    this.horizontalSwipe = false;
     this.swipeStartX = 0;
     this.swipeStartY = 0;
   }
